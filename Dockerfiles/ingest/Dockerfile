@@ -1,7 +1,7 @@
 # Untar distribution files and pull configuration from repo
 ARG tag
 FROM opencast-source:${tag} AS builder
-ENV OPENCAST_DISTRIBUTION="allinone"
+ENV OPENCAST_DISTRIBUTION="ingest"
 RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
 

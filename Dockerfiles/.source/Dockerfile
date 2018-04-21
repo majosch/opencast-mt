@@ -14,8 +14,6 @@ ENV LANG="C.UTF-8" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
-#    OPENCAST_VERSION="${branch}"
-#    OPENCAST_CONFIG_GIT="https://schambm7:k3m2zbfe@bitbucket.org/schambm7/oc-univie-config.git"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -30,9 +28,4 @@ RUN cd "${OPENCAST_SRC}" && \
     mvn --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true && \
     mv "${OPENCAST_SRC}"/build/* "${OPENCAST_TAR}" && \
     rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
-
-
-#WORKDIR "${OPENCAST_HOME}"/build
-#RUN ln -s "${OPENCAST_SRC}"/build/*.tar.gz . && chown -R "${OPENCAST_UID}":"${OPENCAST_GID}" *
 VOLUME ["${OPENCAST_TAR}"]
-#RUN rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
