@@ -14,18 +14,21 @@ ENV LANG="C.UTF-8" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
+ENV OPENCAST_DB_DDL="${OPENCAST_TAR}/ddl"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       tar gzip git \
       ca-certificates openssl \
       maven make gcc g++ libc-dev
-RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_TAR}" "${OPENCAST_BUILD}"
+RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_TAR}" "${OPENCAST_BUILD}" "${OPENCAST_DB_DDL}"
 RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" && \
     cd "${OPENCAST_SRC}" && \
     git checkout "${OPENCAST_BRANCH}"
+RUN cp "${OPENCAST_SRC}"/docs/scripts/ddl/mysql5.sql "${OPENCAST_DB_DDL}"
 RUN cd "${OPENCAST_SRC}" && \
     mvn --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true && \
     mv "${OPENCAST_SRC}"/build/* "${OPENCAST_TAR}" && \
     rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
+WORKDIR "${OPENCAST_TAR}"
 VOLUME ["${OPENCAST_TAR}"]
