@@ -1,0 +1,75 @@
+version: "2"
+volumes:
+  oc-data:
+  oc-config-allinone:
+  oc-deploy-allinone:
+  db:
+  activemq:
+
+services:
+  mariadb:
+    image: opencast-mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=opencast
+      - MYSQL_USER=opencast
+      - MYSQL_PASSWORD=opencast
+#    links:
+#      - "config"
+    volumes:
+      - db:/var/lib/mysql
+  activemq:
+    image: opencast-activemq:latest
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+
+#    links:
+#      - "config"
+    volumes:
+      - activemq:/opt/activemq/conf
+
+  opencast-allinone:
+    image: opencast-allinone:latest
+#    labels:
+#      io.rancher.container.pull_image: always
+#    environment:
+#      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-allinone:8080
+#      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://opencast-allinone:8080/static
+#      - ORG_OPENCASTPROJECT_SECURITY_allinone_USER=allinone
+#      - ORG_OPENCASTPROJECT_SECURITY_allinone_PASS=opencast
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=livestream
+#      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+#      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+#      - PROP_ORG_OPENCASTPROJECT_allinone_UI_URL=http://opencast-allinone/
+#      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation/
+#      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+#      - ACTIVEMQ_BROKER_USERNAME=opencast
+#      - ACTIVEMQ_BROKER_PASSWORD=opencast
+    links:
+      - "mariadb"
+      - "activemq"
+      - "config"
+    ports:
+      - "8080:8080"
+    volumes:
+      - oc-data:/data
+      - oc-config-allinone:/opt/opencast/etc
+      - oc-deploy-allinone:/opt/opencast/deploy
+
+  config:
+    image: opencast-config:latest
+    volumes:
+      - oc-data:/data
+      - oc-config-allinone:/opt/opencast/etc/allinone
+      - oc-deploy-allinone:/opt/opencast/deploy/allinone
+#      - /volumes/opencast-config-ssh:/opt/opencast/.ssh
+      - db:/opt/opencast/db
+      - activemq:/opt/opencast/activemq
+
+    ports:
+      - "22422:22"

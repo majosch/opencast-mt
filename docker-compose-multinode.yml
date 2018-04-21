@@ -1,0 +1,144 @@
+version: "2"
+volumes:
+  oc-data:
+  oc-config-admin:
+  oc-config-presentation:
+  oc-config-worker:
+  oc-deploy-admin:
+  oc-deploy-presentation:
+  oc-deploy-worker:
+  db:
+  activemq:
+
+
+services:
+  mariadb:
+    image: opencast-mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=opencast
+      - MYSQL_USER=opencast
+      - MYSQL_PASSWORD=opencast
+#    links:
+#      - "config"
+    volumes:
+      - db:/var/lib/mysql
+  activemq:
+    image: opencast-activemq:latest
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+#    links:
+#      - "config"
+    volumes:
+      - activemq:/opt/activemq/conf
+
+  opencast-admin:
+    image: opencast-admin:latest
+#    labels:
+#      io.rancher.container.pull_image: always
+#    environment:
+#      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-admin:8080
+#      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://opencast-admin:8080/static
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=livestream
+#      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+#      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+#      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin/
+#      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation/
+#      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+#      - ACTIVEMQ_BROKER_USERNAME=opencast
+#      - ACTIVEMQ_BROKER_PASSWORD=opencast
+    links:
+      - "mariadb"
+      - "activemq"
+      - "config"
+    ports:
+      - "8080:8080"
+    volumes:
+      - oc-data:/data
+      - oc-config-admin:/opt/opencast/etc
+      - oc-deploy-admin:/opt/opencast/deploy
+
+  opencast-presentation:
+    image: opencast-presentation:latest
+#    environment:
+#      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-presentation:8080
+#      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://opencast-admin:8080/static
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=livestream
+#      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+#      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+#      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
+#      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
+#      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+#      - ACTIVEMQ_BROKER_USERNAME=opencast
+#      - ACTIVEMQ_BROKER_PASSWORD=opencast
+    ports:
+      - "8081:8080"
+    links:
+      - "opencast-admin"
+      - "mariadb"
+      - "activemq"
+      - "config"
+    volumes:
+      - oc-data:/data
+      - oc-config-presentation:/opt/opencast/etc
+      - oc-deploy-presentation:/opt/opencast/deploy
+
+  opencast-worker:
+    image: opencast-worker:latest
+#    environment:
+#      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-worker:8080
+#      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://opencast-admin:8080/static
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+#      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+#      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=livestream
+#      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+#      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+#      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+#      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
+#      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
+#      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+#      - ACTIVEMQ_BROKER_USERNAME=opencast
+#      - ACTIVEMQ_BROKER_PASSWORD=opencast
+    links:
+      - "opencast-admin"
+      - "mariadb"
+      - "activemq"
+      - "config"
+    volumes:
+      - oc-data:/data
+      - oc-config-worker:/opt/opencast/etc
+      - oc-deploy-worker:/opt/opencast/deploy
+
+  config:
+    image: opencast-config:latest
+    volumes:
+      - oc-data:/data
+      - oc-config-admin:/opt/opencast/etc/admin
+      - oc-deploy-admin:/opt/opencast/deploy/admin
+      - oc-config-presentation:/opt/opencast/etc/presentation
+      - oc-deploy-presentation:/opt/opencast/deploy/presentation
+      - oc-config-worker:/opt/opencast/etc/worker
+      - oc-deploy-worker:/opt/opencast/deploy/worker
+#      - /volumes/opencast-config-ssh:/opt/opencast/.ssh
+      - db:/opt/opencast/db
+      - activemq:/opt/opencast/activemq
+
+    ports:
+      - "22422:22"
