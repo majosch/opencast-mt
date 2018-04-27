@@ -83,9 +83,9 @@ RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" && \
     mkdir -p "${OPENCAST_DATA}" && \
     mkdir -p "${OPENCAST_HOME}"
 
-COPY assets/scripts "${OPENCAST_SCRIPTS}"
-COPY assets/etc/ "${OPENCAST_HOME}/etc-temp/"
-COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
+COPY Dockerfiles/.base/assets/scripts "${OPENCAST_SCRIPTS}"
+COPY Dockerfiles/.base/assets/etc/ "${OPENCAST_HOME}/etc-temp/"
+COPY Dockerfiles/.base/assets/docker-entrypoint.sh Dockerfiles/.base/assets/docker-healthcheck.sh /
 
 RUN mkdir -p /tmp/hunspell /usr/share/hunspell && \
      { \

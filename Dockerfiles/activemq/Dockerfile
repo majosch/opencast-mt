@@ -15,7 +15,7 @@ RUN curl -O http://archive.apache.org/dist/activemq/$ACTIVEMQ_VERSION/$ACTIVEMQ-
     ln -s /opt/$ACTIVEMQ $ACTIVEMQ_HOME && \
     useradd -r -M -d $ACTIVEMQ_HOME activemq && \
     chown activemq:activemq /opt/$ACTIVEMQ -R
-COPY assets/* /opt/activemq/conf/
+COPY Dockerfiles/activemq/assets/* /opt/activemq/conf/
 RUN sed -i -e "s/{{ACTIVEMQ_BROKER_USERNAME}}/$(echo $ACTIVEMQ_BROKER_USERNAME)/g" ${ACTIVEMQ_HOME}/conf/users.properties && \
     sed -i -e "s/{{ACTIVEMQ_BROKER_PASSWORD}}/$(echo $ACTIVEMQ_BROKER_PASSWORD)/g" ${ACTIVEMQ_HOME}/conf/users.properties && \
     sed -i -e "s/{{ACTIVEMQ_BROKER_USERNAME}}/$(echo $ACTIVEMQ_BROKER_USERNAME)/g" ${ACTIVEMQ_HOME}/conf/groups.properties
