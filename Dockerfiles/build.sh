@@ -8,10 +8,21 @@ NODEPREFIX="opencast"
 PARENT_DIR=$(basename "${PWD%/*}")
 CURRENT_DIR="${PWD##*/}"
 
-export TAG="${1:-latest}"
+
 export REPO="${2:-https://github.com/opencast/opencast.git}"
 export BRANCH="${1:-develop}"
+echo $BRANCH > foo.txt
+TAB=$(cut -d/ -f2 foo.txt)
+if [ $BRANCH = "develop" ]; then
+	TAG="latest"
+else
+	TAG=$TAB
+fi
 
+echo branch: $BRANCH
+echo tag: $TAG
+
+rm foo.txt
 
 if [ -z "$REGISTRY" ]; then
 	if [ -z "$NAMESPACE" ]; then
@@ -34,6 +45,7 @@ echo "**********************************"
 echo
 echo "- Repository:  $REPO"
 echo "- Branch:      $BRANCH"
+echo "- Pulling to:  $IMAGEURL-*:$TAG"
 echo
 echo "**********************************"
 echo
