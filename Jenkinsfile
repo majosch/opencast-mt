@@ -7,14 +7,11 @@ pipeline{
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
         BRANCH='amc-develop'
     }
-    parameters {
-            booleanParam(name: 'AUTO_DEPLOY', defaultValue: false, description: 'AutoDeploy:')
-            string(name: 'ARTIFACTS_PROJECT_NAME', defaultValue: 'AMC_OPENCAST', description: 'Define Project Name:')
-    }
     stages{
       stage('Hash') {
           steps {
               echo "${env.BRANCH_NAME}"
+              echo "${env.BRANCH}"
               echo "${env.GIT_COMMIT}"
           }
         }
