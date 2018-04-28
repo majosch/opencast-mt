@@ -23,7 +23,7 @@ pipeline{
                 stage('Build Base') {
                     steps {
                         script {
-                            docker.withRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-base:${env.BRANCH}","--build-arg repo=https://github.com/academic-moodle-cooperation/opencast.git","--build-arg branch=${env.BRANCH}","-f Dockerfiles/.base/Dockerfile Dockerfiles/.base")
                                image.push("${env.BRANCH}")
                             }
