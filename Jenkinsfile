@@ -27,6 +27,20 @@ pipeline{
                         }
                     }
                 }
+                stage('Build Source') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                               def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-source:${env.BRANCH}","--build-arg branch=${env.BRANCH} --build-arg=https://github.com/academic-moodle-cooperation/opencast.git -f Dockerfiles/.source/Dockerfile Dockerfiles/.source")
+                               image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Build required services') {
+            parallel {
                 stage('Build ActiveMQ') {
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
