@@ -24,6 +24,7 @@ RUN apt-get update && \
 RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_TAR}" "${OPENCAST_BUILD}" "${OPENCAST_DB_DDL}"
 RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" && \
     cd "${OPENCAST_SRC}" && \
+    git fetch --all && \
     git checkout "${OPENCAST_BRANCH}"
 RUN cp "${OPENCAST_SRC}"/docs/scripts/ddl/mysql5.sql "${OPENCAST_DB_DDL}"
 RUN cd "${OPENCAST_SRC}" && \

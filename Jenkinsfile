@@ -73,5 +73,59 @@ pipeline{
                 }
             }
         }
+        stage('Build Opencast Node Images') {
+            parallel {
+                stage('Build All-In-One') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-allinone:${env.BRANCH}","-f Dockerfiles/allinone/Dockerfile .")
+                                image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+                stage('Build Admin') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-admin:${env.BRANCH}", "-f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
+                                image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+                stage('Build Ingest') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-ingest:${env.BRANCH}", "-f Dockerfiles/ingest/Dockerfile Dockerfiles/ingest")
+                                image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+                stage('Build Presentation') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-presentation:${env.BRANCH}","-f Dockerfiles/presentation/Dockerfile Dockerfiles/presentation")
+                                image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+                stage('Build Worker') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
+                            script {
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-worker:${env.BRANCH}","-f Dockerfiles/worker/Dockerfile Dockerfiles/worker")
+                                image.push("${env.BRANCH}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
