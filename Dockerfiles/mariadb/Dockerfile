@@ -1,4 +1,4 @@
-ARG tag="develop"
+ARG tag="amc-develop"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
 FROM ${registry}/${nodeprefix}-source:${tag} AS builder
