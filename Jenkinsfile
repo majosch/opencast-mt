@@ -5,8 +5,8 @@ pipeline{
     }
     environment{
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
-        BRANCH='amc-develop'
-        REPO='https://github.com/academic-moodle-cooperation/opencast.git'
+        BRANCH='develop'
+        REPO='https://github.com/opencast/opencast.git'
         NODEPREFIX='amc/opencast-mt'
         REGISTRYURL='registry.oc.univie.ac.at'
     }
