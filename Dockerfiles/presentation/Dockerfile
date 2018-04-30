@@ -1,6 +1,6 @@
 # Untar distribution files and pull configuration from repo
 ARG tag
-FROM opencast-mt-source:$tag AS builder
+FROM amc/opencast-mt-source:$tag AS builder
 ENV OPENCAST_DISTRIBUTION="presentation"
 RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
