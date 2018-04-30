@@ -49,7 +49,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-base:${env.BRANCH}","-f Dockerfiles/activemq/Dockerfile Dockerfiles/activemq")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-activemq:${env.BRANCH}","-f Dockerfiles/activemq/Dockerfile Dockerfiles/activemq")
                                 image.push("${env.BRANCH}")
                             }
                         }
