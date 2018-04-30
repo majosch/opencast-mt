@@ -1,5 +1,7 @@
-ARG tag
-FROM amc/opencast-mt-source:$tag AS builder
+ARG tag="develop"
+ARG registry="registry.oc.univie.ac.at"
+ARG nodeprefix="amc/opencast-mt"
+FROM ${registry}/${nodeprefix}-source:${tag} AS builder
 ENV LANG="C.UTF-8" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
@@ -8,7 +10,6 @@ ENV LANG="C.UTF-8" \
     OPENCAST_TAR="/tar" \
     OPENCAST_DATA="/data" \
     OPENCAST_HOME="/opencast" \
-    OPENCAST_BRANCH="4.3" \
     MARIADB_BASEVERSION="10.0" \
     OPENCAST_DB_DDL="${OPENCAST_BUILD}/ddl"
 

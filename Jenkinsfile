@@ -16,6 +16,7 @@ pipeline{
               echo "${env.BRANCH_NAME}"
               echo "${env.BRANCH}"
               echo "${env.GIT_COMMIT}"
+              echo "${env.GIT_HASH}"
           }
         }
         stage('Build Prerequisites') {
@@ -58,7 +59,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.BRANCH}","--build-arg tag=${env.BRANCH} --build-arg registry=${env.REGISTRYURL} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
                                 image.push("${env.BRANCH}")
                             }
                         }
