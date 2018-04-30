@@ -55,7 +55,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-mariadb:${env.BRANCH}","-f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-mariadb:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
                                 image.push("${env.BRANCH}")
                             }
                         }
@@ -79,7 +79,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-allinone:${env.BRANCH}","-f Dockerfiles/allinone/Dockerfile Dockerfiles/allinone")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-allinone:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/allinone/Dockerfile Dockerfiles/allinone")
                                 image.push("${env.BRANCH}")
                             }
                         }
@@ -89,7 +89,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-admin:${env.BRANCH}", "-f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-admin:${env.BRANCH}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
                                 image.push("${env.BRANCH}")
                             }
                         }
@@ -99,7 +99,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-ingest:${env.BRANCH}", "-f Dockerfiles/ingest/Dockerfile Dockerfiles/ingest")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-ingest:${env.BRANCH}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/ingest/Dockerfile Dockerfiles/ingest")
                                 image.push("${env.BRANCH}")
                             }
                         }
@@ -109,7 +109,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-presentation:${env.BRANCH}","-f Dockerfiles/presentation/Dockerfile Dockerfiles/presentation")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-presentation:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/presentation/Dockerfile Dockerfiles/presentation")
                                 image.push("${env.BRANCH}")
                             }
                         }
@@ -119,7 +119,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://registry.oc.univie.ac.at']) {
                             script {
-                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-worker:${env.BRANCH}","-f Dockerfiles/worker/Dockerfile Dockerfiles/worker")
+                                def image = docker.build("registry.oc.univie.ac.at/amc/opencast-mt-worker:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/worker/Dockerfile Dockerfiles/worker")
                                 image.push("${env.BRANCH}")
                             }
                         }
