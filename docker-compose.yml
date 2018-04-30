@@ -13,18 +13,18 @@ volumes:
 
 services:
   mariadb:
-    image: opencast-mariadb:${TAG}
+    image: opencast-mt-mariadb:${TAG}
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=opencast
-      - MYSQL_USER=opencast
-      - MYSQL_PASSWORD=opencast
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 #    links:
 #      - "config"
     volumes:
       - db:/var/lib/mysql
   activemq:
-    image: opencast-activemq:${TAG}
+    image: opencast-mt-activemq:${TAG}
 #    environment:
 #      - ACTIVEMQ_MIN_MEMORY=128
 #      - ACTIVEMQ_MAX_MEMORY=1024
@@ -38,7 +38,7 @@ services:
       - activemq:/opt/activemq/conf
 
   opencast-admin:
-    image: opencast-admin:${TAG}
+    image: opencast-mt-admin:${TAG}
 #    labels:
 #      io.rancher.container.pull_image: always
     environment:
@@ -81,7 +81,7 @@ services:
       - oc-deploy-admin:/opt/opencast/deploy
 
   opencast-presentation:
-    image: opencast-presentation:${TAG}
+    image: opencast-mt-presentation:${TAG}
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=${OPENCAST_PRESENTATION_URL}
       - TENANT1_ID=${OC_TENANT1_ID}
@@ -123,7 +123,7 @@ services:
       - oc-deploy-presentation:/opt/opencast/deploy
 
   opencast-worker:
-    image: opencast-worker:${TAG}
+    image: opencast-mt-worker:${TAG}
     environment:
 #      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-worker:8080
       - TENANT1_ID=${OC_TENANT1_ID}
@@ -163,7 +163,7 @@ services:
       - oc-deploy-worker:/opt/opencast/deploy
 
   config:
-    image: opencast-config:${TAG}
+    image: opencast-mt-config:${TAG}
     volumes:
       - oc-data:/data
       - oc-config-admin:/opt/opencast/etc/admin

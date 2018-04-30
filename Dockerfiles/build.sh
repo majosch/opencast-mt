@@ -4,7 +4,7 @@ set -e
 
 REGISTRY=""
 NAMESPACE=""
-NODEPREFIX="opencast"
+NODEPREFIX="opencast-mt"
 PARENT_DIR=$(basename "${PWD%/*}")
 CURRENT_DIR="${PWD##*/}"
 
