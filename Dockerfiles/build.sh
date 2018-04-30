@@ -2,9 +2,9 @@
 
 set -e
 
-REGISTRY="registry.oc.univie.ac.at"
-NAMESPACE="amc"
-NODEPREFIX="opencast-mt"
+REGISTRY=""
+NAMESPACE=""
+NODEPREFIX="opencast"
 PARENT_DIR=$(basename "${PWD%/*}")
 CURRENT_DIR="${PWD##*/}"
 
@@ -53,13 +53,13 @@ cd ./.source
 echo "- Build image: $IMAGEURL-source:$TAG"
 docker build --build-arg branch=$BRANCH \
   					 --build-arg repo=$REPO -t $IMAGEURL-source:${TAG} .
-docker push ${IMAGEURL}-source:${TAG}
+#docker push ${IMAGEURL}-source:${TAG}
 cd ..
 
 cd ./.base
 echo "- Build image: $IMAGEURL-base:$TAG"
 docker build -t $IMAGEURL-base:${TAG} .
-docker push ${IMAGEURL}-base:${TAG}
+#docker push ${IMAGEURL}-base:${TAG}
 cd ..
 
 echo
@@ -73,7 +73,7 @@ for d in ./*/ ; do (
 	echo "- Build image: $IMAGEURL-${PWD##*/}:$TAG"
 	docker build --build-arg tag=$TAG \
 							 -t $IMAGEURL-${PWD##*/}:$TAG .
-	docker push ${IMAGEURL}-${PWD##*/}:${TAG}
+#	docker push ${IMAGEURL}-${PWD##*/}:${TAG}
 ); done
 
 echo

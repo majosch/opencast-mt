@@ -1,5 +1,5 @@
 ARG tag
-FROM opencast-source:$tag AS builder
+FROM opencast-mt-source:$tag AS builder
 ENV LANG="C.UTF-8" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
