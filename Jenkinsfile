@@ -5,10 +5,11 @@ pipeline{
     }
     environment{
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
-        BRANCH='develop'
+        BRANCH='amc-r/5.x'
         REPO='https://github.com/opencast/opencast.git'
         NODEPREFIX='amc/opencast-mt'
         REGISTRYURL='registry.oc.univie.ac.at'
+        DOCKERTAG="5.x"
     }
     stages{
       stage('Hash') {
@@ -25,8 +26,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                               def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-base:${env.BRANCH}","-f Dockerfiles/.base/Dockerfile Dockerfiles/.base")
-                               image.push("${env.BRANCH}")
+                               def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-base:${env.DOCKERTAG}","-f Dockerfiles/.base/Dockerfile Dockerfiles/.base")
+                               image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -35,8 +36,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                               def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-source:${env.BRANCH}","--build-arg branch=${env.BRANCH} --build-arg repo=${env.REPO} -f Dockerfiles/.source/Dockerfile Dockerfiles/.source")
-                               image.push("${env.BRANCH}")
+                               def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-source:${env.DOCKERTAG}","--build-arg branch=${env.BRANCH} --build-arg repo=${env.REPO} -f Dockerfiles/.source/Dockerfile Dockerfiles/.source")
+                               image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -49,8 +50,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-activemq:${env.BRANCH}","-f Dockerfiles/activemq/Dockerfile Dockerfiles/activemq")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-activemq:${env.DOCKERTAG}","-f Dockerfiles/activemq/Dockerfile Dockerfiles/activemq")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -59,8 +60,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.BRANCH}","--build-arg tag=${env.BRANCH} --build-arg registry=${env.REGISTRYURL} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.DOCKERTAG}","--build-arg tag=${env.BRANCH} --build-arg registry=${env.REGISTRYURL} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -69,8 +70,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-config:${env.BRANCH}","-f Dockerfiles/config/Dockerfile Dockerfiles/config")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-config:${env.DOCKERTAG}","-f Dockerfiles/config/Dockerfile Dockerfiles/config")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -83,8 +84,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-allinone:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/allinone/Dockerfile Dockerfiles/allinone")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-allinone:${env.DOCKERTAG}","--build-arg tag=${env.BRANCH} -f Dockerfiles/allinone/Dockerfile Dockerfiles/allinone")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -93,8 +94,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.BRANCH}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.DOCKERTAG}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -103,8 +104,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-ingest:${env.BRANCH}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/ingest/Dockerfile Dockerfiles/ingest")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-ingest:${env.DOCKERTAG}", "--build-arg tag=${env.BRANCH} -f Dockerfiles/ingest/Dockerfile Dockerfiles/ingest")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -113,8 +114,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-presentation:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/presentation/Dockerfile Dockerfiles/presentation")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-presentation:${env.DOCKERTAG}","--build-arg tag=${env.BRANCH} -f Dockerfiles/presentation/Dockerfile Dockerfiles/presentation")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
@@ -123,8 +124,8 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-worker:${env.BRANCH}","--build-arg tag=${env.BRANCH} -f Dockerfiles/worker/Dockerfile Dockerfiles/worker")
-                                image.push("${env.BRANCH}")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-worker:${env.DOCKERTAG}","--build-arg tag=${env.BRANCH} -f Dockerfiles/worker/Dockerfile Dockerfiles/worker")
+                                image.push("${env.DOCKERTAG}")
                             }
                         }
                     }
