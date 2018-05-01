@@ -1,7 +1,7 @@
 ARG tag="latest"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
-FROM ${registry}/${nodeprefix}-source:${tag} AS builder
+FROM registry.oc.univie.ac.at/amc/opencast-mt-source:5.x AS builder
 ENV LANG="C.UTF-8" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
