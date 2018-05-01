@@ -95,7 +95,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.DOCKERTAG}", "--build-arg tag=${env.DOCKERTAG}", "--build-arg registry=${env.REGISTRYURL}", "--build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.DOCKERTAG}", "--build-arg tag=${env.DOCKERTAG} --build-arg registry=${env.REGISTRYURL} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
                                 image.push("${env.DOCKERTAG}")
                             }
                         }
