@@ -2,8 +2,8 @@
 
 set -e
 
-REGISTRY=""
-NAMESPACE=""
+REGISTRY="registry.oc.univie.ac.at"
+NAMESPACE="amc"
 NODEPREFIX="opencast-mt"
 PARENT_DIR=$(basename "${PWD%/*}")
 CURRENT_DIR="${PWD##*/}"
@@ -14,7 +14,7 @@ export BRANCH="${1:-develop}"
 echo $BRANCH > foo.txt
 TAB=$(cut -d/ -f2 foo.txt)
 if [ $BRANCH = "develop" ]; then
-	TAG="latest"
+	TAG="develop"
 else
 	TAG=$TAB
 fi
@@ -53,13 +53,13 @@ cd ./.source
 echo "- Build image: $IMAGEURL-source:$TAG"
 docker build --build-arg branch=$BRANCH \
   					 --build-arg repo=$REPO -t $IMAGEURL-source:${TAG} .
-#docker push ${IMAGEURL}-source:${TAG}
+docker push ${IMAGEURL}-source:${TAG}
 cd ..
 
 cd ./.base
 echo "- Build image: $IMAGEURL-base:$TAG"
 docker build -t $IMAGEURL-base:${TAG} .
-#docker push ${IMAGEURL}-base:${TAG}
+docker push ${IMAGEURL}-base:${TAG}
 cd ..
 
 echo
@@ -72,8 +72,10 @@ for d in ./*/ ; do (
 	cd "$d" &&
 	echo "- Build image: $IMAGEURL-${PWD##*/}:$TAG"
 	docker build --build-arg tag=$TAG \
+	             --build-arg registry=$REGISTRY \
+							 --build-arg nodeprefix=$NODEPREFIX \
 							 -t $IMAGEURL-${PWD##*/}:$TAG .
-#	docker push ${IMAGEURL}-${PWD##*/}:${TAG}
+	docker push ${IMAGEURL}-${PWD##*/}:${TAG}
 ); done
 
 echo

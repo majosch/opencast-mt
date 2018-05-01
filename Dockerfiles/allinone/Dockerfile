@@ -1,6 +1,7 @@
-# Untar distribution files and pull configuration from repo
-ARG tag
-FROM amc/opencast-mt-source:$tag AS builder
+ARG tag="latest"
+ARG registry="registry.oc.univie.ac.at"
+ARG nodeprefix="amc/opencast-mt"
+FROM ${registry}/${nodeprefix}-source:${tag} AS builder
 ENV OPENCAST_DISTRIBUTION="allinone"
 RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
