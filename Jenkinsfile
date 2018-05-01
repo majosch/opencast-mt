@@ -61,7 +61,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.DOCKERTAG}","--build-arg tag=${env.DOCKERTAG} --build-arg registry=${env.REGISTRYURL} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.DOCKERTAG}","--build-arg tag=${env.DOCKERTAG} --build-arg reg=${env.REGISTRYURL} --build-arg pre=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
                                 image.push("${env.DOCKERTAG}")
                             }
                         }
@@ -95,7 +95,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.DOCKERTAG}", "--build-arg registry=${env.REGISTRYURL} --build-arg tag=${env.DOCKERTAG} --build-arg nodeprefix=${env.NODEPREFIX} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-admin:${env.DOCKERTAG}", "--build-arg reg=${env.REGISTRYURL} --build-arg tag=${env.DOCKERTAG} --build-arg pre=${env.NODEPREFIX} -f Dockerfiles/admin/Dockerfile Dockerfiles/admin")
                                 image.push("${env.DOCKERTAG}")
                             }
                         }
