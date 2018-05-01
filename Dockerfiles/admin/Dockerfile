@@ -1,7 +1,7 @@
 ARG tag="latest"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
-FROM $registry/amc/opencast-mt-source:${tag} AS builder
+FROM ${registry}/amc/opencast-mt-source:${tag} AS builder
 ENV OPENCAST_DISTRIBUTION="admin"
 RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
