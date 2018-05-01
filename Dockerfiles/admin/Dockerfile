@@ -1,4 +1,4 @@
-ARG tag="latest"
+ARG tag="5.x"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
 FROM ${registry}/amc/opencast-mt-source:${tag} AS builder
