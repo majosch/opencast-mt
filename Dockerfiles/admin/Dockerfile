@@ -1,5 +1,5 @@
 ARG tag="5.x"
-ARG reg=registry.oc.univie.ac.at
+ARG reg="registry.oc.univie.ac.at"
 ARG pre="amc/opencast-mt"
 FROM ${reg}/amc/opencast-mt-source:${tag} AS builder
 ENV OPENCAST_DISTRIBUTION="admin"
