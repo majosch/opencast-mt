@@ -7,7 +7,7 @@ RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
 
 # Build image for Opencast node
-FROM ${registry}/amc/opencast-mt-base:${tag}
+FROM ${reg}/amc/opencast-mt-base:${tag}
 ARG ORG_OPENCASTPROJECT_SERVER_URL="oc-admin"
 ENV ORG_OPENCASTPROJECT_SERVER_URL=$ORG_OPENCASTPROJECT_SERVER_URL
 COPY --from=builder "${OPENCAST_BUILD}" "${OPENCAST_HOME}"
