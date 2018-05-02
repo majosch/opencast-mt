@@ -61,7 +61,7 @@ pipeline{
                     steps {
                         withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: 'https://${env.REGISTRYURL}']) {
                             script {
-                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.DOCKERTAG}",args: "--build-arg tag=${env.DOCKERTAG} --build-arg reg=${env.REGISTRYURL} --build-arg pre=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-mariadb:${env.DOCKERTAG}","--build-arg tag=${env.DOCKERTAG} --build-arg reg=${env.REGISTRYURL} --build-arg pre=${env.NODEPREFIX} -f Dockerfiles/mariadb/Dockerfile Dockerfiles/mariadb")
                                 image.push("${env.DOCKERTAG}")
                             }
                         }
