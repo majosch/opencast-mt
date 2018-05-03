@@ -3,9 +3,12 @@ pipeline{
     options {
         buildDiscarder(logRotator(numToKeepStr:'10'))
     }
-    environment{
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'amc-r/5.x', description: 'Branch to checkout for build')
+    }
+    environment {
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
-        BRANCH='amc-r/5.x'
+        //BRANCH='amc-r/5.x'
         REPO='https://github.com/academic-moodle-cooperation/opencast.git'
         //REPO='https://github.com/opencast/opencast.git'
         NODEPREFIX='amc/opencast-mt'
