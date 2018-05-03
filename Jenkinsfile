@@ -4,16 +4,20 @@ pipeline{
         buildDiscarder(logRotator(numToKeepStr:'10'))
     }
     parameters {
-        string(name: 'BRANCH', defaultValue: 'amc-r/5.x', description: 'Branch to checkout for build')
+        string(name: 'REPO', defaultValue: 'https://github.com/academic-moodle-cooperation/opencast.git', description: 'Repository'),
+        string(name: 'BRANCH', defaultValue: 'amc-r/5.x', description: 'Branch'),
+        string(name: 'NODEPREFIX', defaultValue: 'amc-opencast-mt', description: 'Branch'),
+        string(name: 'REGISTRYURL', defaultValue: 'registry.oc.univie.ac.at', description: 'Docker Registry'),
+        string(name: 'DOCKERTAG', defaultValue: '5.x', description: 'Tag')
     }
     environment {
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
         //BRANCH='amc-r/5.x'
-        REPO='https://github.com/academic-moodle-cooperation/opencast.git'
+        //REPO='https://github.com/academic-moodle-cooperation/opencast.git'
         //REPO='https://github.com/opencast/opencast.git'
-        NODEPREFIX='amc/opencast-mt'
-        REGISTRYURL='registry.oc.univie.ac.at'
-        DOCKERTAG="5.x"
+        //NODEPREFIX='amc/opencast-mt'
+        //REGISTRYURL='registry.oc.univie.ac.at'
+        //DOCKERTAG="5.x"
     }
     stages{
       stage('Hash') {
