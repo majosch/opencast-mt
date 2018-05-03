@@ -1,0 +1,7 @@
+name: Opencast Multitenant Installation
+description: Host your own OpenCast with mulitple Tenants!
+version: 0.1
+category: Tools
+maintainer: Martin Schamberger
+license: Free
+projectUrl: ustream.univie.ac.at

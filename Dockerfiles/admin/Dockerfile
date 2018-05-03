@@ -1,4 +1,4 @@
-ARG tag="latest"
+ARG tag="5.x"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
 FROM ${registry}/${nodeprefix}-source:${tag} AS builder
@@ -7,7 +7,7 @@ RUN cd "${OPENCAST_TAR}" && \
     tar -xzf opencast-dist-"${OPENCAST_DISTRIBUTION}"-*.tar.gz --strip 1 -C "${OPENCAST_BUILD}"
 
 # Build image for Opencast node
-FROM opencast-mt-base:${tag}
+FROM ${registry}/${nodeprefix}-base:${tag}
 ARG ORG_OPENCASTPROJECT_SERVER_URL="oc-admin"
 ENV ORG_OPENCASTPROJECT_SERVER_URL=$ORG_OPENCASTPROJECT_SERVER_URL
 COPY --from=builder "${OPENCAST_BUILD}" "${OPENCAST_HOME}"
