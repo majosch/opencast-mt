@@ -17,7 +17,7 @@ pipeline{
             description: 'Image-Prefix',
             name: 'NODEPREFIX')
         string (
-            defaultValue: 'registry.oc.univie.ac.at',
+            defaultValue: "registry.oc.univie.ac.at",
             description: 'Docker Registry',
             name: 'REGISTRYURL')
         string (
