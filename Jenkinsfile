@@ -13,7 +13,7 @@ pipeline{
             description: 'Branch',
             name: 'BRANCH')
         string (
-            defaultValue: 'amc-opencast-mt',
+            defaultValue: 'amc/opencast-mt',
             description: 'Image-Prefix',
             name: 'NODEPREFIX')
         string (
