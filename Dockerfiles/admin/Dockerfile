@@ -1,6 +1,6 @@
 ARG tag="5.x"
-ARG reg="registry.oc.univie.ac.at"
-ARG pre="amc/opencast-mt"
+ARG registry="registry.oc.univie.ac.at"
+ARG nodeprefix="amc/opencast-mt"
 FROM ${registry}/${nodeprefix}-source:${tag} AS builder
 ENV OPENCAST_DISTRIBUTION="admin"
 RUN cd "${OPENCAST_TAR}" && \
