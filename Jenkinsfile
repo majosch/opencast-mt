@@ -4,11 +4,26 @@ pipeline{
         buildDiscarder(logRotator(numToKeepStr:'10'))
     }
     parameters {
-        string(name: 'REPO', defaultValue: 'https://github.com/academic-moodle-cooperation/opencast.git', description: 'Repository'),
-        string(name: 'BRANCH', defaultValue: 'amc-r/5.x', description: 'Branch'),
-        string(name: 'NODEPREFIX', defaultValue: 'amc-opencast-mt', description: 'Image-Prefix'),
-        string(name: 'REGISTRYURL', defaultValue: 'registry.oc.univie.ac.at', description: 'Docker Registry'),
-        string(name: 'DOCKERTAG', defaultValue: '5.x', description: 'Tag')
+        string (
+            defaultValue: 'https://github.com/academic-moodle-cooperation/opencast.git',
+            description: 'Repository',
+            name: 'REPO')
+        string (
+            defaultValue: 'amc-r/5.x',
+            description: 'Branch',
+            name: 'BRANCH')
+        string (
+            defaultValue: 'amc-opencast-mt',
+            description: 'Image-Prefix',
+            name: 'NODEPREFIX')
+        string (
+            defaultValue: 'registry.oc.univie.ac.at',
+            description: 'Docker Registry',
+            name: 'REGISTRYURL')
+        string (
+            defaultValue: '5.x',
+            description: 'Tag',
+            name: 'DOCKERTAG')
     }
     environment {
         GIT_HASH = "${env.GIT_COMMIT[0..7]}"
