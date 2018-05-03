@@ -6,7 +6,7 @@ pipeline{
     parameters {
         string(name: 'REPO', defaultValue: 'https://github.com/academic-moodle-cooperation/opencast.git', description: 'Repository'),
         string(name: 'BRANCH', defaultValue: 'amc-r/5.x', description: 'Branch'),
-        string(name: 'NODEPREFIX', defaultValue: 'amc-opencast-mt', description: 'Branch'),
+        string(name: 'NODEPREFIX', defaultValue: 'amc-opencast-mt', description: 'Image-Prefix'),
         string(name: 'REGISTRYURL', defaultValue: 'registry.oc.univie.ac.at', description: 'Docker Registry'),
         string(name: 'DOCKERTAG', defaultValue: '5.x', description: 'Tag')
     }
