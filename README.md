@@ -2,7 +2,6 @@
 
 
 -   [Introduction](#introduction)
--   [Installation](#installation)
 -   [Build](#build)
 -   [Quick Start](#quick-start)
 -   [Images](#images)
@@ -24,25 +23,21 @@
 
 # Introduction
 
-This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.org/) Docker images.
-
-# Installation
-
+This repository holds `Dockerfiles` and a `Jenkinsfiles` for creating [Opencast](http://www.opencast.org/) Docker images.
 
 # Build
 
-If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images. To customize the build you can override these variables:
+If you want to build the images yourself, there is a `build.sh` with the necessary `docker build` commands for all distributions. Running `build.sh` in the root directory will create these images. To customize the build you can override these variables:
 
--   `DOCKER_IMAGE_BASE`<br>
-    The fist part of the image name. It defaults to `opencast` and will be extended by the name of the Opencast distribution.
--   `DOCKER_TAG`<br>
+-   `IMAGE_PREFIX`<br>
+    The fist part of the image name. It defaults to `opencast` and will be extended by the name of the Opencast distribution. You can use namespaces as well (e.g. amc/opencast-test).
+-   `TAG`<br>
     The tag of the image. Defaults to the content of `VERSION`.
 -   `REPO`<br>
     The git repository to clone Opencast from. The default is the upstream repository, but you can use your own fork.
 -   `BRANCH`<br>
     The name of the git branch to check out. Defaults to the value of `DOCKER_TAG`.
--   `CUSTOM_DOCKER_BUILD_ARGS`<br>
-    Custom arguments that should be passed to `docker build`, e.g. you can set this to `--no-cache` to force an image build. By default empty.
+
 
 # Quick Start
 
@@ -57,9 +52,6 @@ This will run Opencast using the `allinone` distribution configured to use the b
 
 In the `./docker-compose` directory there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mariadb.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
 
-# Images
-
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `4.3` is `opencast/admin:4.3`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -168,9 +160,6 @@ The `migration` distribution has the following additional options:
 -   `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional<br>
     Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not H2.
 
-### H2
-
-There are no additional environment variables you can set if you are using the H2 database.
 
 ### MySQL
 
@@ -199,4 +188,3 @@ Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to
 -   [Project site](https://github.com/opencast/opencast-docker)
 -   [Opencast documentation](https://docs.opencast.org/latest/admin/)
 -   [Images on Docker Hub](https://hub.docker.com/r/opencast/)
-
