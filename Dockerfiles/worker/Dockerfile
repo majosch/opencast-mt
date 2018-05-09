@@ -1,4 +1,4 @@
-ARG tag="latest"
+ARG tag="5.x"
 ARG registry="registry.oc.univie.ac.at"
 ARG nodeprefix="amc/opencast-mt"
 FROM ${registry}/${nodeprefix}-source:${tag} AS builder
@@ -17,6 +17,7 @@ RUN chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}" && \
     chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" && \
     chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" /docker-*.sh
 RUN  javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+COPY assets/etc/custom.properties "${OPENCAST_CONFIG}/"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}", "${OPENCAST_CONFIG}", "${OPENCAST_HOME}/deploy" ]
 WORKDIR "${OPENCAST_HOME}"
