@@ -14,7 +14,8 @@ activemq_main_init() {
   sed -i -e "s/{{ACTIVEMQ_BROKER_PASSWORD}}/$(echo $ACTIVEMQ_BROKER_PASSWORD)/g" ${ACTIVEMQ_HOME}/conf/users.properties && \
   sed -i -e "s/{{ACTIVEMQ_BROKER_USERNAME}}/$(echo $ACTIVEMQ_BROKER_USERNAME)/g" ${ACTIVEMQ_HOME}/conf/groups.properties && \
   sed -i -e "s/127.0.0.1/0.0.0.0/g" ${ACTIVEMQ_HOME}/conf/activemq.xml && \
-  sed -i -e '/<\/shutdownHooks>/ r ${ACTIVEMQ_HOME}/conf/jaas-snippet.xml' ${ACTIVEMQ_HOME}/conf/activemq.xml
+  cd conf && \
+  sed -i -e '/<\/shutdownHooks>/ r jaas-snippet.xml' ${ACTIVEMQ_HOME}/conf/activemq.xml
 
 }
 
