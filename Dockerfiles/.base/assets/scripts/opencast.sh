@@ -80,8 +80,8 @@ opencast_opencast_configure() {
 
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-tenant1.cfg" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
-    "OC_TENANT1_ID" \
-    "OC_TENANT1_NAME" \
+    "TENANT1_ID" \
+    "TENANT1_NAME" \
     "PROP_ORG_OPENCASTPROJECT_TENANT1_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_TENANT1_PRESENTATION_UI_URL" \
     "TENANT1_SERVER_ADMIN" \
@@ -89,8 +89,8 @@ opencast_opencast_configure() {
 
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-tenant2.cfg" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
-    "OC_TENANT2_ID" \
-    "OC_TENANT1_NAME" \
+    "TENANT2_ID" \
+    "TENANT2_NAME" \
     "PROP_ORG_OPENCASTPROJECT_TENANT2_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_TENANT2_PRESENTATION_UI_URL" \
     "TENANT2_SERVER_ADMIN" \
