@@ -28,7 +28,7 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" && \
     git fetch --all && \
     git checkout "${OPENCAST_BRANCH}"
 RUN cp "${OPENCAST_SRC}"/docs/scripts/ddl/mysql5.sql "${OPENCAST_DB_DDL}" && \
-    cp "${OPENCAST_SRC}"/docs/scripts/activemq/activemq.xml "${OPENCAST_DB_AMQ}"
+    cp "${OPENCAST_SRC}"/docs/scripts/activemq/activemq.xml "${OPENCAST_AMQ_XML}"
 
 RUN cd "${OPENCAST_SRC}" && \
     mvn --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true && \
