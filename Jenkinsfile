@@ -5,11 +5,11 @@ pipeline{
     }
     parameters {
         string (
-            defaultValue: 'https://github.com/academic-moodle-cooperation/opencast.git',
+            defaultValue: 'https://github.com/opencast/opencast.git',
             description: "Repository",
             name: 'REPO')
         string (
-            defaultValue: "amc-r/5.x",
+            defaultValue: "r/5.x",
             description: 'Branch',
             name: 'BRANCH')
         string (
