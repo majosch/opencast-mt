@@ -1,3 +1,18 @@
+ARG tag="5.x"
+ARG registry="registry.oc.univie.ac.at"
+ARG nodeprefix="amc/opencast-mt"
+FROM ${registry}/${nodeprefix}-source:${tag} AS builder
+ENV LANG="C.UTF-8" \
+    OPENCAST_USER="opencast" \
+    OPENCAST_GROUP="opencast" \
+    OPENCAST_UID="800" \
+    OPENCAST_GID="800" \
+    OPENCAST_TAR="/tar" \
+    OPENCAST_DATA="/data" \
+    OPENCAST_HOME="/opencast" \
+    MARIADB_BASEVERSION="10.0" \
+    OPENCAST_DB_DDL="${OPENCAST_BUILD}/ddl"
+
 FROM openjdk:7
 ARG ACTIVEMQ_VERSION="5.13.2"
 ARG ACTIVEMQ_BROKER_USERNAME="opencast"
@@ -8,6 +23,8 @@ ENV ACTIVEMQ_TCP=61616 ACTIVEMQ_AMQP=5672 ACTIVEMQ_STOMP=61613 ACTIVEMQ_MQTT=188
 ENV ACTIVEMQ_HOME="/opt/activemq"
 ENV ACTIVEMQ_BROKER_USERNAME=$ACTIVEMQ_BROKER_USERNAME \
     ACTIVEMQ_BROKER_PASSWORD=$ACTIVEMQ_BROKER_PASSWORD
+ENV OPENCAST_TAR="/tar"
+ENV OPENCAST_AMQ_XML="${OPENCAST_TAR}/amq"
 RUN curl -O http://archive.apache.org/dist/activemq/$ACTIVEMQ_VERSION/$ACTIVEMQ-bin.tar.gz && \
     mkdir -p /opt && \
     tar xf $ACTIVEMQ-bin.tar.gz -C /opt/ && \
@@ -16,6 +33,7 @@ RUN curl -O http://archive.apache.org/dist/activemq/$ACTIVEMQ_VERSION/$ACTIVEMQ-
     useradd -r -M -d $ACTIVEMQ_HOME activemq && \
     chown -R activemq:activemq /opt/$ACTIVEMQ
 COPY assets/conf/* /opt/activemq/conf/
+COPY --from=builder "${OPENCAST_AMQ_XML}"/* /opt/activemq/conf/
 RUN mkdir -p /opt/scripts
 COPY assets/scripts/* /opt/scripts/
 RUN chown -R activemq:activemq /opt/scripts/

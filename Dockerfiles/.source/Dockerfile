@@ -14,19 +14,22 @@ ENV LANG="C.UTF-8" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
-ENV OPENCAST_DB_DDL="${OPENCAST_TAR}/ddl"
+ENV OPENCAST_DB_DDL="${OPENCAST_TAR}/ddl" \
+    OPENCAST_AMQ_XML="${OPENCAST_TAR}/amq"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       tar gzip git \
       ca-certificates openssl \
       maven make gcc g++ libc-dev
-RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_TAR}" "${OPENCAST_BUILD}" "${OPENCAST_DB_DDL}"
+RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_TAR}" "${OPENCAST_BUILD}" "${OPENCAST_DB_DDL}" "${OPENCAST_AMQ_XML}"
 RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" && \
     cd "${OPENCAST_SRC}" && \
     git fetch --all && \
     git checkout "${OPENCAST_BRANCH}"
-RUN cp "${OPENCAST_SRC}"/docs/scripts/ddl/mysql5.sql "${OPENCAST_DB_DDL}"
+RUN cp "${OPENCAST_SRC}"/docs/scripts/ddl/mysql5.sql "${OPENCAST_DB_DDL}" && \
+    cp "${OPENCAST_SRC}"/docs/scripts/activemq/activemq.xml "${OPENCAST_DB_AMQ}"
+
 RUN cd "${OPENCAST_SRC}" && \
     mvn --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true && \
     mv "${OPENCAST_SRC}"/build/* "${OPENCAST_TAR}" && \
