@@ -99,6 +99,16 @@ pipeline{
                         }
                     }
                 }
+                stage('Build Nginx') {
+                    steps {
+                        withDockerRegistry([credentialsId: 'PORTUS_JENKINS_LOGIN', url: "https://${env.REGISTRYURL}"]) {
+                            script {
+                                def image = docker.build("${env.REGISTRYURL}/${env.NODEPREFIX}-nginx:${env.DOCKERTAG}","-f Dockerfiles/nginx/Dockerfile Dockerfiles/nginx")
+                                image.push("${env.DOCKERTAG}")
+                            }
+                        }
+                    }
+                }
             }
         }
         stage('Build Opencast Node Images') {
