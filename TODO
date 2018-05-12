@@ -1,7 +1,8 @@
-* .env files for Opencast Tags
-* fix ARGs and ENVs
-* docker-compose-build.yml
-* Jenkins-Integration
-* run as USER and not guso
-* Rancher-Integration
-* from version 5/6 renamed module from matterhorn to opencast --> check scripts
+[ ] .env files for Opencast Tags
+[ ] fix ARGs and ENVs
+[ ] fix docker-compose-*.yml
+[x] Jenkins declarative pipeline
+[ ] run as USER and not guso
+[x] Rancher catalog
+[ ] Autopeploy
+[*] from opencast 5 onwards renamed module from matterhorn to opencast --> check scripts
