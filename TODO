@@ -5,4 +5,16 @@
 [ ] run as USER and not guso
 [x] Rancher catalog
 [ ] Autopeploy
-[*] from opencast 5 onwards renamed module from matterhorn to opencast --> check scripts
+[x] from opencast 5 onwards renamed module from matterhorn to opencast --> check scripts
+[x] add nginx image for easy downloading assets
+[ ] add config image
+[ ] wowza-integration
+[ ] add graylog
+[ ] configure matomo
+[ ] add kieselstein-live
+[ ] configure paella
+[ ] configure moodleuserdirectoryplugin
+[ ] configure youtube-plugin
+[ ] add SAML
+[ ] configure URL-signage downloads (may require apache instead of nginx)
+[ ] configure URL-signage streams (wowza)
