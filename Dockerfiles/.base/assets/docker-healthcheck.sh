@@ -16,7 +16,7 @@
 
 set -o pipefail
 
-OPENCAST_API="http://127.0.0.1:8080"
+OPENCAST_API="${OPENCAST_ADMIN_URL}"
 DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
 DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
 
