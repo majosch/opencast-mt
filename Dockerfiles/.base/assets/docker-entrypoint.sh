@@ -53,7 +53,7 @@ opencast_main_configure() {
 opencast_main_init() {
   echo "Run opencast_main_init"
 
-  opencast_tz_set
+#  opencast_tz_set
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"

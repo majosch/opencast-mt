@@ -22,5 +22,6 @@ EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}", "${OPENCAST_CONFIG}", "${OPENCAST_HOME}/deploy" ]
 WORKDIR "${OPENCAST_HOME}"
 HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
+USER ${OPENCAST_USER}
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["app:start"]
