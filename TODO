@@ -2,7 +2,8 @@
 [ ] fix ARGs and ENVs
 [ ] fix docker-compose-*.yml
 [x] Jenkins declarative pipeline
-[ ] run as USER and not guso
+[x] run as USER and not su-exec
+[x] set timezone via ENV
 [x] Rancher catalog
 [ ] Autopeploy
 [x] from opencast 5 onwards renamed module from matterhorn to opencast --> check scripts
