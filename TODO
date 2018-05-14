@@ -16,6 +16,6 @@
 [ ] configure paella
 [ ] configure moodleuserdirectoryplugin
 [ ] configure youtube-plugin
-[ ] add SAML
+[ ] add SAML (may require apache instead of nginx)
 [ ] configure URL-signage downloads (may require apache instead of nginx)
 [ ] configure URL-signage streams (wowza)
