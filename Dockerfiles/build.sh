@@ -3,7 +3,7 @@
 set -e
 
 REGISTRY="registry.oc.univie.ac.at"
-NAMESPACE=""
+NAMESPACE="amc"
 NODEPREFIX="opencast-mt"
 PARENT_DIR=$(basename "${PWD%/*}")
 CURRENT_DIR="${PWD##*/}"

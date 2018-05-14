@@ -2,9 +2,9 @@ FROM alpine:3.7
 
 RUN apk add --no-cache \
        openjdk8 \
-       bash su-exec openssl tzdata curl jq \
+       bash openssl tzdata curl jq \
        fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
-       ffmpeg sox hunspell tesseract-ocr sudo
+       ffmpeg sox hunspell tesseract-ocr nano
 
 ARG OPENCAST_ADMIN_URL="http://oc-admin:8080"
 ARG TENANT1_ID="tenant1"
@@ -104,4 +104,4 @@ RUN mkdir -p /tmp/hunspell /usr/share/hunspell && \
      done && \
      cp *.aff *.dic /usr/share/hunspell && \
      rm -rf /tmp/*
-RUN "${OPENCAST_SCRIPTS}"/sudo.sh
+#RUN "${OPENCAST_SCRIPTS}"/sudo.sh
