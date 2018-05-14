@@ -29,13 +29,11 @@ RUN addgroup --gid "${OPENCAST_GID}" "${OPENCAST_GROUP}" && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 #RUN echo 'opencast:livestream' | chpasswd
 
-RUN mkdir -p "${OPENCAST_HOME}"/etc/admin && \
-    mkdir -p "${OPENCAST_HOME}"/etc/presentation && \
-    mkdir -p "${OPENCAST_HOME}"/etc/worker && \
-    mkdir -p "${OPENCAST_HOME}"/deploy/admin && \
-    mkdir -p "${OPENCAST_HOME}"/deploy/presentation && \
-    mkdir -p "${OPENCAST_HOME}"/deploy/worker && \
-    mkdir -p "${OPENCAST_HOME}"/db && \
+RUN mkdir -p "${OPENCAST_HOME}"/admin/etc && \
+    mkdir -p "${OPENCAST_HOME}"/presentation/etc && \
+    mkdir -p "${OPENCAST_HOME}"/admin/deploy && \
+    mkdir -p "${OPENCAST_HOME}"/presentation/deploy && \
+    mkdir -p "${OPENCAST_HOME}"/mariadb && \
     mkdir -p "${OPENCAST_HOME}"/activemq && \
     mkdir -p "${OPENCAST_HOME}"/.ssh && \
     mkdir -p "${OPENCAST_DATA}" && \
