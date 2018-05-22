@@ -16,8 +16,18 @@
 
 set -e
 
-export ORG_OPENCASTPROJECT_SERVER_URL="${ORG_OPENCASTPROJECT_SERVER_URL:-$(hostname -f):8080}"
-export ORG_OPENCASTPROJECT_SERVER_URL2="${ORG_OPENCASTPROJECT_SERVER_URL2:-$(hostname -f)}"
+
+if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin || opencast_helper_dist_presentation; then
+  # shellcheck disable=SC2016
+  export MH_DEFAULT_ORG_SERVER_URL="${MH_DEFAULT_ORG_SERVER_URL:-$(hostname -f)}"
+  export MH_DEFAULT_ORG_SERVER_PORT="${MH_DEFAULT_ORG_SERVER_PORT:--1}"
+  ORG_OPENCASTPROJECT_SERVER_URL="https://${MH_DEFAULT_ORG_SERVER_URL}"
+else
+  export MH_DEFAULT_ORG_SERVER_URL="${MH_DEFAULT_ORG_SERVER_URL:-$(hostname -f):8080}"
+  export MH_DEFAULT_ORG_SERVER_PORT="${MH_DEFAULT_ORG_SERVER_PORT:-8080}"
+  ORG_OPENCASTPROJECT_SERVER_URL="http://${MH_DEFAULT_ORG_SERVER_URL}:${MH_DEFAULT_ORG_SERVER_PORT}"
+fi
+
 export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 export ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
 
@@ -78,7 +88,8 @@ opencast_opencast_configure() {
     "STREAMING_PORT_ADAPTIVE"
 
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
-    "ORG_OPENCASTPROJECT_SERVER_URL2" \
+    "MH_DEFAULT_ORG_SERVER_URL" \
+    "MH_DEFAULT_ORG_SERVER_PORT" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL" \

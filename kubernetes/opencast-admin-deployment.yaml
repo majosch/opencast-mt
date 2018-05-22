@@ -1,0 +1,100 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.8.0 (0c0c027)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: opencast-admin
+  name: opencast-admin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: opencast-admin
+    spec:
+      containers:
+      - env:
+        - name: ACTIVEMQ_BROKER_PASSWORD
+          value: password
+        - name: ACTIVEMQ_BROKER_URL
+          value: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+        - name: ACTIVEMQ_BROKER_USERNAME
+          value: admin
+        - name: OPENCAST_DATA
+          value: /data
+        - name: ORG_OPENCASTPROJECT_ADMIN_EMAIL
+          value: http://oc-admin:8080
+        - name: ORG_OPENCASTPROJECT_DB_DDL_GENERATION
+          value: '"false"'
+        - name: ORG_OPENCASTPROJECT_DB_JDBC_PASS
+          value: opencast
+        - name: ORG_OPENCASTPROJECT_DB_JDBC_URL
+          value: jdbc:mysql://mariadb/opencast
+        - name: ORG_OPENCASTPROJECT_DB_JDBC_USER
+          value: opencast
+        - name: ORG_OPENCASTPROJECT_DB_VENDOR
+          value: MySQL
+        - name: ORG_OPENCASTPROJECT_DOWNLOAD_URL
+          value: http://oc-admin:8080
+        - name: ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS
+          value: opencast
+        - name: ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER
+          value: admin
+        - name: ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS
+          value: opencast
+        - name: ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER
+          value: opencast_system_account
+        - name: ORG_OPENCASTPROJECT_SERVER_URL
+          value: http://oc-admin:8080
+        - name: PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL
+          value: http://oc-admin:8080
+        - name: PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL
+          value: http://oc-presentation:8080
+        - name: PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL
+          value: http://oc-admin:8080
+        - name: PROP_ORG_OPENCASTPROJECT_TENANT1_ADMIN_UI_URL
+          value: http://oc1-admin:8080
+        - name: PROP_ORG_OPENCASTPROJECT_TENANT1_PRESENTATION_UI_URL
+          value: http://oc1-presentation:8080
+        - name: PROP_ORG_OPENCASTPROJECT_TENANT2_ADMIN_UI_URL
+          value: http://oc2-admin:8080
+        - name: PROP_ORG_OPENCASTPROJECT_TENANT2_PRESENTATION_UI_URL
+          value: http://oc2-presentation:8080
+        - name: TENANT1_ID
+          value: tenant1
+        - name: TENANT1_NAME
+          value: Tenant 1
+        - name: TENANT2_ID
+          value: tenant2
+        - name: TENANT2_NAME
+          value: Tenant 2
+        image: opencast-mt-admin:latest
+        name: opencast-admin
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - mountPath: /data
+          name: oc-data
+        - mountPath: /opt/opencast/etc
+          name: oc-config-admin
+        - mountPath: /opt/opencast/deploy
+          name: oc-deploy-admin
+      restartPolicy: Always
+      volumes:
+      - name: oc-data
+        persistentVolumeClaim:
+          claimName: oc-data
+      - name: oc-config-admin
+        persistentVolumeClaim:
+          claimName: oc-config-admin
+      - name: oc-deploy-admin
+        persistentVolumeClaim:
+          claimName: oc-deploy-admin
+status: {}

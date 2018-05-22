@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.8.0 (0c0c027)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: activemq
+  name: activemq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: activemq
+    spec:
+      containers:
+      - image: opencast-mt-activemq:latest
+        name: activemq
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/activemq/conf
+          name: activemq
+      restartPolicy: Always
+      volumes:
+      - name: activemq
+        persistentVolumeClaim:
+          claimName: activemq
+status: {}

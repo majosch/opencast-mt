@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: opencast-mt-template
+  annotations:
+    openshift.io/display-name: "Opencast Multitenant"
+    description: >-
+      An Opencast multinode installation with two additional tenants and all required services.
+      https://gitlab.oc.univie.ac.at/amc/opencast-multitenant/blob/master/README.md
+
+      WARNING: Any data stored will be lost upon pod destruction. Only use this
+      template for testing."
+    template.openshift.io/long-description: >-
+      This template defines resources needed to create an Opencast stack,
+      including an admin node, a presentation node, ingest and worker nodes and all required
+      services (MariaDB, ActiveMQ, Apache).
+      Asset & database are stored in non-persistent storage, so this configuration should be
+      used for experimental purposes only.
+    tags: "quickstart,php,cakephp"
+    iconClass: icon-php
+    template.openshift.io/provider-display-name: "AMC"
+    template.openshift.io/documentation-url: "https://gitlab.oc.univie.ac.at/amc/opencast-multitenant"
+    template.openshift.io/support-url: "https://ustream.univie.ac.at"
+  parameters:
+    - name: MYSQL_ROOT_PASSWORD
+      description: Password for Root on MariaDB
