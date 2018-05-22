@@ -16,16 +16,14 @@
 
 set -e
 
-
-if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin || opencast_helper_dist_presentation; then
-  # shellcheck disable=SC2016
-  export MH_DEFAULT_ORG_SERVER_URL="${MH_DEFAULT_ORG_SERVER_URL:-$(hostname -f)}"
-  export MH_DEFAULT_ORG_SERVER_PORT="${MH_DEFAULT_ORG_SERVER_PORT:--1}"
-  ORG_OPENCASTPROJECT_SERVER_URL="https://${MH_DEFAULT_ORG_SERVER_URL}"
+if [ $OPENCAST_DISTRIBUTION == 'admin' ] || [ $OPENCAST_DISTRIBUTION == 'allinone' ] || [ $OPENCAST_DISTRIBUTION == 'presentation' ]; then
+  MH_DEFAULT_ORG_SERVER_URL="$(hostname -f)"
+  MH_DEFAULT_ORG_SERVER_PORT="-1"
+  ORG_OPENCASTPROJECT_SERVER_URL_COMPLETE="https://${MH_DEFAULT_ORG_SERVER_URL}"
 else
-  export MH_DEFAULT_ORG_SERVER_URL="${MH_DEFAULT_ORG_SERVER_URL:-$(hostname -f):8080}"
-  export MH_DEFAULT_ORG_SERVER_PORT="${MH_DEFAULT_ORG_SERVER_PORT:-8080}"
-  ORG_OPENCASTPROJECT_SERVER_URL="http://${MH_DEFAULT_ORG_SERVER_URL}:${MH_DEFAULT_ORG_SERVER_PORT}"
+  MH_DEFAULT_ORG_SERVER_URL="$(hostname -f):8080"
+  MH_DEFAULT_ORG_SERVER_PORT="8080"
+  ORG_OPENCASTPROJECT_SERVER_URL_COMPLETE="http://${MH_DEFAULT_ORG_SERVER_URL}"
 fi
 
 export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
@@ -73,8 +71,8 @@ opencast_opencast_check() {
 opencast_opencast_configure() {
   echo "Run opencast_opencast_configure"
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" \
+    "ORG_OPENCASTPROJECT_SERVER_URL_COMPLETE" \
     "ORG_OPENCASTPROJECT_ADMIN_EMAIL" \
-    "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER" \
