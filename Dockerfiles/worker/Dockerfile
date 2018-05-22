@@ -8,6 +8,7 @@ RUN cd "${OPENCAST_TAR}" && \
 
 # Build image for Opencast node
 FROM ${registry}/${nodeprefix}-base:${tag}
+ENV OPENCAST_DISTRIBUTION="worker"
 #ARG ORG_OPENCASTPROJECT_SERVER_URL="oc-worker"
 #ENV ORG_OPENCASTPROJECT_SERVER_URL=$ORG_OPENCASTPROJECT_SERVER_URL
 COPY --from=builder "${OPENCAST_BUILD}" "${OPENCAST_HOME}"
